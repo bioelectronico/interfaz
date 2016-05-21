@@ -41,10 +41,12 @@ GLfloat yrot;         /* Y Rotation */
 GLfloat zrot;         /* Y Rotation */
 GLfloat xspeed=0.25f; /* X Rotation Speed */
 GLfloat yspeed=0.25f; /* Y Rotation Speed */
+
 GLfloat zspeed=0.05f; /* Y Rotation Speed */
-GLfloat z=-6.0f;      /* Depth Into The Screen */
-GLfloat alpha=0.01f;      /* Depth Into The Screen */
-GLfloat aspeed=0.05f; /* Y Rotation Speed */
+GLfloat z=-30.0f;      /* Depth Into The Screen */
+
+GLfloat alpha=1.0f;      /* Depth Into The Screen */
+GLfloat aspeed=0.002f; /* Y Rotation Speed */
 
 /* Ambient Light Values (NEW) */
 GLfloat LightAmbient[]={0.5f, 0.5f, 0.5f, 1.0f};
@@ -54,8 +56,8 @@ GLfloat LightDiffuse[]={1.0f, 1.0f, 1.0f, 1.0f};
 GLfloat LightPosition[]={0.0f, 0.0f, 2.0f, 1.0f};
 
 /* Default OpenGL ES material settings */
-GLfloat box_material_amb[4]={0.2f, 0.2f, 0.2f, 0.2f};
-GLfloat box_material_dif[4]={0.8f, 0.8f, 0.8f, 0.8f};
+GLfloat box_material_amb[4]={0.2f, 0.2f, 0.2f, 1.0f};
+GLfloat box_material_dif[4]={0.8f, 0.8f, 0.8f, 1.0f};
 
 GLuint filter=0;   /* Which Filter To Use */
 GLuint texture[3]; /* Storage for 3 textures */
@@ -125,11 +127,15 @@ int render()
     GLfloat texcoords[4][2];
     GLfloat vertices[4][3];
     GLubyte indices[4]={1, 0, 2, 3}; /* QUAD to TRIANGLE_STRIP conversion; */
+ 
+    box_material_amb[3]= alpha;
+    box_material_dif[3]= alpha;
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, box_material_amb);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, box_material_dif);
 
     /* Clear The Screen And The Depth Buffer */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glEnable(GL_BLEND);
 
     /* Reset the view */
     glLoadIdentity();
@@ -168,10 +174,6 @@ int render()
     texcoords[3][0]=1.0f; texcoords[3][1]=1.0f;
     vertices[3][0]=-1.0f; vertices[3][1]=1.0f;  vertices[3][2]=1.0f;
 
-    glColor4f(1.0f, 1.0f, 1.0f, alpha);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
     /* Draw one textured plane using two stripped triangles */
     glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
 
@@ -191,10 +193,6 @@ int render()
     /* Point 4 (Back) */
     texcoords[3][0]=1.0f; texcoords[3][1]=0.0f;
     vertices[3][0]=1.0f;  vertices[3][1]=-1.0f; vertices[3][2]=-1.0f;
-
-    glColor4f(1.0f, 1.0f, 1.0f, alpha);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
     /* Draw one textured plane using two stripped triangles */
     glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
@@ -216,10 +214,6 @@ int render()
     texcoords[3][0]=0.0f; texcoords[3][1]=1.0f;
     vertices[3][0]=1.0f;  vertices[3][1]=1.0f; vertices[3][2]=-1.0f;
 
-    glColor4f(1.0f, 1.0f, 1.0f, alpha);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
     /* Draw one textured plane using two stripped triangles */
     glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
 
@@ -239,10 +233,6 @@ int render()
     /* Point 4 (Bottom) */
     texcoords[3][0]=0.0f; texcoords[3][1]=0.0f;
     vertices[3][0]=-1.0f; vertices[3][1]=-1.0f; vertices[3][2]=1.0f;
-
-    glColor4f(1.0f, 1.0f, 1.0f, alpha);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
     /* Draw one textured plane using two stripped triangles */
     glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
@@ -264,10 +254,6 @@ int render()
     texcoords[3][0]=1.0f; texcoords[3][1]=0.0f;
     vertices[3][0]=1.0f;  vertices[3][1]=-1.0f; vertices[3][2]=1.0f;
 
-    glColor4f(1.0f, 1.0f, 1.0f, alpha);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
     /* Draw one textured plane using two stripped triangles */
     glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
 
@@ -281,15 +267,12 @@ int render()
     /* Point 2 (Left) */
     texcoords[1][0]=0.0f; texcoords[1][1]=0.0f;
     vertices[1][0]=-1.0f; vertices[1][1]=-1.0f; vertices[1][2]=1.0f;
-      /* Point 3 (Left) */
+    /* Point 3 (Left) */
     texcoords[2][0]=0.0f; texcoords[2][1]=1.0f;
     vertices[2][0]=-1.0f; vertices[2][1]=1.0f;  vertices[2][2]=1.0f;
       /* Point 4 (Left) */
     texcoords[3][0]=1.0f; texcoords[3][1]=1.0f;
     vertices[3][0]=-1.0f; vertices[3][1]=1.0f;  vertices[3][2]=-1.0f;
-
-    glColor4f(1.0f, 1.0f, 1.0f, alpha);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     /* Draw one textured plane using two stripped triangles */
     glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, indices);
@@ -302,9 +285,9 @@ int render()
 
     xrot+=xspeed; /* Add xspeed To xrot */
     yrot+=yspeed; /* Add yspeed To yrot */
-    //z+=zspeed; /* Add yspeed To zrot */
+    z+=zspeed; /* Add yspeed To zrot */
 
-    alpha+=aspeed;
+    alpha-=aspeed;
 
     return 1;
 }
@@ -452,7 +435,7 @@ int init(void)
 
 
     /* Full Brightness, 50% Alpha (NEW) */
-    glColor4f(1.0f, 1.0f, 1.0f, 0.0f);
+    glColor4f(1.0f, 1.0f, 1.0f, alpha);
 
     /* Blending Function For Translucency Based On Source Alpha Value  */
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -466,6 +449,8 @@ int init(void)
 	
     /* Scale the content to the window */
     resize(w,h);
+
+    alpha+=aspeed;
 
     return 1;
 }
