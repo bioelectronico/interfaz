@@ -13,8 +13,7 @@ int const max_type = 4;
 int const max_BINARY_value = 255;
 Mat src, src_gray, dst;
 char* window_name = "Threshold Demo";
-char* trackbar_type = "Type: \n 0: Binary \n 1: Binary Inverted \n 2:
-Truncate \n 3: To Zero \n 4: To Zero Inverted";
+char* trackbar_type = "Type: \n 0: Binary \n 1: Binary Inverted \n 2: Truncate \n 3: To Zero \n 4: To Zero Inverted";
 char* trackbar_value = "Value";
 
 /// Function headers

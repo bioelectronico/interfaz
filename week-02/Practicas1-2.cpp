@@ -1,8 +1,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include "opencv2/core.hpp"
-#include "opencv2/imgproc.hpp"
-#include "opencv2/highgui.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
+#include <stdio.h>
+
 #include <stdio.h>
 
 using namespace cv;
@@ -26,7 +26,9 @@ int main()
   char wndname[] = "Drawing Demo";
   const int NUMBER = 100;
   const int DELAY = 5;
-  int lineType = LINE_AA; // change it to LINE_8 to see non-antialiased graphics
+  // LINE_AA = 16 and LINE_8 = 8
+  // change it to LINE_8 to see non-antialiased graphics
+  int lineType = 8;
   int i, width = 1000, height = 700;
   int x1 = -width/2, x2 = width*3/2, y1 = -height/2, y2 = height*3/2;
   RNG rng(0xFFFFFFFF);
